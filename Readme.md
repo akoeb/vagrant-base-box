@@ -8,8 +8,10 @@ https://www.github.com/akoeb/dotfiles
 ## Usage of the box ## 
 
     ````bash
+
     vagrant init akoeb/debian
     vagrant up
+
     ```
 
 ## Creation of a new box ##
