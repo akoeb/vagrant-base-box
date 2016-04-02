@@ -25,19 +25,35 @@ find /var/log -type f | while read f; do echo -ne '' > $f; done
 print_green 'Remove APT lists'
 rm -rf /var/lib/apt/lists/*
 
+print_green 'removing sources'
+rm -rf /usr/src/linux-headers*
+rm -rf /usr/src/vboxguest*
+rm -rf /opt/VBoxGuestAdditions-*/src/
+
+# whiteout swap
+swappart=`cat /proc/swaps | grep -v Filename | tail -n1 | awk -F ' ' '{print $1}'`
+if [ -n "$swappart" ]; then
+    print_green "Whiteout swap part $swappart"
+    old_uuid=$(blkid $swappart -s UUID -o value)
+    swapoff $swappart
+    dd if=/dev/zero of=$swappart
+    mkswap -f $swappart
+    swapon $swappart
+
+    # swap has a different uuid now, change fstab:
+    new_uuid=$(blkid $swappart -s UUID -o value)
+    sed "s/$old_uuid/$new_uuid/" -i /etc/fstab
+fi
+
+
 print_green 'Whiteout root'
 count=`df --sync -kP / | tail -n1  | awk -F ' ' '{print $4}'`
 let count--
 dd if=/dev/zero of=/tmp/whitespace bs=1024 count=$count
 rm /tmp/whitespace
- 
-swappart=`cat /proc/swaps | grep -v Filename | tail -n1 | awk -F ' ' '{print $1}'`
-if [ -n "$swappart" ]; then
-    print_green "Whiteout swap part $swappart"
-    swapoff $swappart
-    dd if=/dev/zero of=$swappart
-    mkswap -f $swappart
-    swapon $swappart
-fi
+
+
+# block until all disk writes are done
+sync
 
 print_green 'Vagrant cleanup complete!'

@@ -19,7 +19,7 @@ fi
 
 
 # start new vm
-#vagrant up
+vagrant up
 
 # package and import
 vagrant package --output ${FILENAME}
