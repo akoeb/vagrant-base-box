@@ -11,7 +11,7 @@ timedatectl set-timezone Europe/Berlin
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get -y dist-upgrade
-apt-get -y install git vim linux-headers-$(uname -r) build-essential dkms
+apt-get -y install git vim vim-pathogen linux-headers-$(uname -r) build-essential dkms
 
 # get the vbox guest additions, version 5.0.16 hardcoded for now
 GUEST_VERSION=5.0.16
