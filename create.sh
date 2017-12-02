@@ -7,28 +7,40 @@
 
 set -e
 
-FILENAME=akoeb_debian.box
+function build() {
+    local dir=$1
+    cd $dir
+    source environment.sh
+
+    # package running vm
+    if [ -e ${FILENAME} ]
+    then
+        echo "Warning: old file ${FILENAME} exists, overwriting it" 1>&2
+        rm ${FILENAME}
+    fi
 
 
-# package running vm
-if [ -e ${FILENAME} ]
-then
-    echo "Warning: old file ${FILENAME} exists, overwriting it" 1>&2
-    rm ${FILENAME}
-fi
+    # start new vm
+    vagrant up
+
+    # package and import
+    vagrant package --output ${FILENAME}
+
+    # destroy current box
+    vagrant destroy -f
 
 
-# start new vm
-vagrant up
+    # to add the box to the local vagrant environment, uncomment this line:
+    #vagrant box add --name ${NAME} --force ${FILENAME}
 
-# package and import
-vagrant package --output ${FILENAME}
+    echo "The box is created with the name ${FILENAME}, you now may upload it to atlas"
+    cd ..
+}
 
-# destroy current box
-vagrant destroy -f
+# build all boxes:
+for d in  docker java
+do
+   build $d
+done
 
-# to add the box to the local vagrant environment, uncomment this line:
-# vagrant box add --name ${NAME} --force ${FILENAME}
-
-echo "The box is created with the name ${FILENAME}, you now may upload it to atlas"
 

@@ -1,0 +1,23 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  
+  # Every Vagrant virtual environment requires a box to build off of.
+  config.vm.box = "akoeb/docker_offline"
+  config.vm.box_url = "file://../docker/akoeb_docker.box"
+
+  # don't insert random key or the box will be unusable
+  config.ssh.insert_key = false
+
+  # provisioning as shell script for OS compatibility
+  # install java and maven
+  config.vm.provision "shell", path: "setup.sh"
+
+  # compact image
+  config.vm.provision "shell", path: "../clean.sh"
+ 
+end
