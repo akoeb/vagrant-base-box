@@ -10,12 +10,12 @@ if ! dpkg-query -W -f='${Status} ${Version}\n' apt-transport-https 2>/dev/null
 then
     apt-get update
     apt-get install --yes apt-transport-https ca-certificates
-    apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
 fi
 
 # add docker repo
 if [ ! -e "$repofile" ]
 then
+    apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
     echo 'deb https://apt.dockerproject.org/repo debian-jessie main' > $repofile
 fi
 

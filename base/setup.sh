@@ -13,8 +13,8 @@ apt-get update
 apt-get -y dist-upgrade
 apt-get -y install git vim vim-pathogen linux-headers-$(uname -r) build-essential dkms
 
-# get the vbox guest additions, version 5.0.16 hardcoded for now
-GUEST_VERSION=5.0.20
+# get the vbox guest additions, version 5.1.30 hardcoded for now
+GUEST_VERSION=5.1.30
 wget -nv http://download.virtualbox.org/virtualbox/${GUEST_VERSION}/VBoxGuestAdditions_${GUEST_VERSION}.iso
 
 # mount the iso

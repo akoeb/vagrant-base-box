@@ -18,4 +18,6 @@ https://www.github.com/akoeb/dotfiles
 * run the create script
 * use the box directly, add it to local vagrant with ```` vagrant package ```` or upload the box to atlas.
 
+# TODO #
 
+* add vagrant user to group "systemd-journal"

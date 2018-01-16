@@ -10,8 +10,8 @@ function print_green {
 
 print_green 'Clean Apt'
 apt-get -y autoremove
-aptitude clean
-aptitude autoclean
+apt clean
+apt autoclean
 
 print_green 'Cleanup bash history'
 history -c
